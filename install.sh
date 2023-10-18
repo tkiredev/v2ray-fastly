@@ -3,7 +3,7 @@ global_token=""
 
 URL_API="http://api.kiredev.shop"
 
-IP=$(curl -s https://ifconfig.io)
+IP=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | head -n1)
 
 _banner () {
   clear
@@ -49,7 +49,13 @@ _auth () {
 
 iv2ray () {
   clear && _banner
+  #Verify status server
+  source <( curl --silent "$URL_API/server/status") > /dev/null 2>&1
+
+  #[ ! -z $STATUS ] && echo -e "Server offline" && return 0
+
   echo -e "[!] ingrese su key para activar su cuenta y continuar con la instalacion\n"
+  
   _auth
   [[ ! -f "_access.key" ]] && {
     clear
@@ -58,7 +64,8 @@ iv2ray () {
     return 0
   }
 
-  source <(curl --silent "$URL_API/v2ray/install/$global_token")
+  #download package
+  source <(curl --silent "$URL_API/v2ray/install/$global_token") > /dev/null 2>&1
 }
 
 __init () {
