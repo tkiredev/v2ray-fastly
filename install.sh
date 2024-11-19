@@ -1,7 +1,7 @@
 #!/bin/bash
 global_token=""
 
-URL_API="http://api.kiredev.shop"
+URL_API="https://v2ray.thekire.ibx.lat"
 
 IP=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | head -n1)
 
